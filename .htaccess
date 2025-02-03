@@ -1,0 +1,16 @@
+# Activar la reescritura de URLs
+RewriteEngine On
+
+# Configuración básica para redirigir a index.php si el archivo o carpeta no existe
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Establecer index.php como archivo principal
+DirectoryIndex index.php
+
+# Permitir la interpretación de errores y activar módulos PHP
+<IfModule mod_php.c>
+    php_flag display_errors On
+    php_value error_reporting E_ALL
+</IfModule>

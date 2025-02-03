@@ -1,0 +1,5 @@
+/configuracion/configuracion.php
+/configuracion/base_datos.php
+/publico/imagenes/*
+*.log
+*.sql

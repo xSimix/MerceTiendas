@@ -1,0 +1,532 @@
+/* ========================================
+   CONFIGURACIÓN BÁSICA
+======================================== */
+body {
+    font-family: "Roboto", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+h1, h2 {
+    text-align: center;
+}
+
+/* ========================================
+   BOTONES GENÉRICOS
+======================================== */
+button {
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #007bff; 
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: "Roboto", sans-serif;
+}
+button:hover {
+    background-color: #0056b3;
+}
+.btn-registrar {
+    background-color: #0275d8;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.btn-eliminar {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 0.3rem 0.6rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.btn-eliminar:hover {
+    background-color: #bb2d3b;
+}
+
+/* ========================================
+   MENÚ Y CABECERA
+======================================== */
+.header {
+    background-color: #007bff;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    height: 60px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.header .logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+.header nav {
+    display: flex;
+    gap: 20px;
+}
+.header nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.header nav a:hover,
+.header nav a.active {
+    background-color: #0056b3;
+}
+.header nav a i {
+    font-size: 18px;
+}
+/* Ocultar header en móvil */
+@media (max-width: 767px) {
+    .header {
+        display: none;
+    }
+}
+
+/* ========================================
+   MENÚ INFERIOR MÓVIL
+======================================== */
+.mobile-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 20px 20px 0 0;
+    padding: 15px 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1000;
+}
+.mobile-nav a {
+    text-decoration: none;
+    color: #888;
+    font-size: 14px;
+    text-align: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: color 0.3s ease;
+}
+.mobile-nav a i {
+    display: block;
+    font-size: 24px;
+    margin-bottom: 5px;
+    transition: transform 0.3s ease;
+}
+.mobile-nav a.active {
+    color: #007bff;
+}
+.mobile-nav a.active i {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+    margin-bottom: 5px;
+    transform: scale(1.2);
+}
+.mobile-nav a:hover {
+    color: #007bff;
+}
+.mobile-nav a:hover i {
+    transform: scale(1.1);
+}
+@media (min-width: 768px) {
+    .mobile-nav {
+        display: none;
+    }
+}
+
+/* ========================================
+   CONTENEDOR PRINCIPAL
+======================================== */
+.container-flujo {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+    padding-bottom: 120px; /* espacio para no tapar menú móvil */
+}
+
+/* ========================================
+   TARJETAS DE RESUMEN
+======================================== */
+.cards-resumen {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.card-resumen {
+    flex: 1 1 0px;
+    min-width: 220px;  /* Mantén un ancho mínimo para escritorio */
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    display: flex;      /* Ícono e info en la misma línea */
+    align-items: center;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+.card-icon {
+    font-size: 2rem;
+    margin-right: 0.75rem;
+}
+.card-info p {
+    margin: 0 0 5px 0;
+    font-weight: bold;
+}
+.card-info h3 {
+    margin: 0;
+    font-size: 1.4rem;
+}
+/* En móvil (≤ 768px): 2x2 usando grid, ícono arriba y texto centrado */
+@media (max-width: 768px) {
+    .cards-resumen {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    .card-resumen {
+        min-width: 0;            
+        flex-direction: column;  
+        align-items: center;     
+    }
+    .card-icon {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+    }
+    .card-info {
+        text-align: center;
+    }
+}
+
+/* ========================================
+   TABLAS
+======================================== */
+.tabla-responsive {
+    width: 100%;
+    overflow-x: auto;  /* Scroll horizontal si excede ancho */
+    margin-bottom: 1rem;
+}
+.tabla-movimientos {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    margin: 0 auto;
+}
+.tabla-movimientos thead {
+    background-color: #f7f7f7;
+}
+.tabla-movimientos th, 
+.tabla-movimientos td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    white-space: nowrap; /* Evita saltos de línea en celdas */
+}
+.tabla-movimientos tr:hover {
+    background-color: #f0f0f0;
+}
+/* Reducir fuente en móvil */
+@media (max-width: 768px) {
+    .tabla-movimientos th, 
+    .tabla-movimientos td {
+        font-size: 0.875rem; 
+        padding: 0.5rem;
+    }
+}
+
+/* ========================================
+   FORMULARIOS Y MODALES
+======================================== */
+.form-group {
+    margin-bottom: 1rem;
+}
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+}
+.form-group input {
+    width: 100%;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Modal genérico */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0; 
+    top: 0;
+    width: 100%; 
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    overflow: auto; /* Scroll si el contenido excede la pantalla */
+}
+.modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;       /* En móviles ocupa 90% del ancho */
+    box-sizing: border-box;
+    position: relative;
+    text-align: left;
+}
+.modal-content h3 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+.modal-content .close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* ========================================
+   RESULTADO DEL ARQUEO (OPCIONAL)
+======================================== */
+.resultado-cierre {
+    text-align: center;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.resultado-correcto {
+    color: green;
+    background-color: #d1e7dd;
+}
+.resultado-falta {
+    color: red;
+    background-color: #f8d7da;
+}
+.resultado-sobra {
+    color: orange;
+    background-color: #fff3cd;
+}
+
+/* ========================================
+   ALERTAS
+======================================== */
+.alert {
+    max-width: 600px;
+    margin: 1rem auto;
+    padding: 1rem;
+    border-radius: 6px;
+}
+.alert-error {
+    background-color: #f8d7da;
+    color: #842029;
+}
+.alert-success {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+/* ========================================
+   ARQUEO WRAPPER: DOS COLUMNAS
+======================================== */
+.arqueo-wrapper {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+.arqueo-col {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 1rem;
+    box-sizing: border-box;
+    flex: 1;
+}
+.arqueo-col.left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.arqueo-col.right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+/* Formularios a la izquierda */
+.arqueo-col.left .form-group {
+    margin-bottom: 1rem;
+}
+.arqueo-col.left .form-group label {
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+    display: block;
+}
+.arqueo-col.left .form-group input {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+/* Input + botón a la derecha */
+.input-with-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.input-with-button input {
+    flex: 1;
+    background-color: #e9f2ff; /* color de ejemplo */
+}
+
+/* Botón de CONTEO */
+.btn-conteo {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+.btn-conteo:hover {
+    background-color: #0056b3;
+}
+/* Botón de CIERRE */
+.btn-cerrar-caja {
+    background-color: #007bff;
+    color: #fff;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    align-self: flex-start; /* alineado a la izquierda */
+}
+.btn-cerrar-caja:hover {
+    background-color: #0056b3;
+}
+/* Resultado a la derecha */
+.resultado-title {
+    font-size: 1.5rem;
+    margin: 0;
+    margin-bottom: 0.5rem;
+}
+.resultado-sub {
+    font-size: 1.2rem;
+    margin: 0;
+    color: green; /* por defecto si es "correcto" */
+    margin-bottom: 0.5rem;
+}
+.resultado-monto {
+    font-size: 5rem;
+    margin: 0;
+    font-weight: bold;
+    color: #000;
+}
+
+/* Responsive en arqueo */
+@media (max-width: 768px) {
+    .arqueo-wrapper {
+        flex-direction: column;
+    }
+    .arqueo-col {
+        margin-bottom: 1rem;
+    }
+    .btn-cerrar-caja {
+        align-self: stretch; /* ocupar todo el ancho en móvil */
+    }
+}
+
+
+/* Estilo para el contenedor de filtros en la parte superior */
+.form-filtros {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  .formulario-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  /* Botón Filtrar */
+  .btn-filtrar {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.6rem 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .btn-filtrar:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Botón para ver detalle (opcional) */
+  .btn-detalle {
+    display: inline-block;
+    background-color: #6c757d;
+    color: #fff;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.85rem;
+  }
+  .btn-detalle:hover {
+    background-color: #5a6268;
+  }
+  
+  /* Paginación */
+  .pagination {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+  .btn-paginacion {
+    background-color: #007bff;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  .btn-paginacion:hover {
+    background-color: #0056b3;
+  }
+  
