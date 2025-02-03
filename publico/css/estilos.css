@@ -24,6 +24,7 @@ button {
     border-radius: 4px;
     cursor: pointer;
     font-family: "Roboto", sans-serif;
+    transition: background-color 0.3s;
 }
 button:hover {
     background-color: #0056b3;
@@ -41,6 +42,7 @@ button:hover {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 .btn-eliminar:hover {
     background-color: #bb2d3b;
@@ -73,23 +75,20 @@ button:hover {
     font-size: 16px;
     padding: 10px;
     border-radius: 5px;
+    background-color: transparent; /* Sin fondo por defecto */
     transition: background-color 0.3s;
     display: flex;
     align-items: center;
     gap: 5px;
 }
-.header nav a:hover,
+.header nav a:hover {
+    background-color: #0056b3;
+}
 .header nav a.active {
     background-color: #0056b3;
 }
 .header nav a i {
     font-size: 18px;
-}
-/* Ocultar header en móvil */
-@media (max-width: 767px) {
-    .header {
-        display: none;
-    }
 }
 
 /* ========================================
@@ -125,6 +124,9 @@ button:hover {
     margin-bottom: 5px;
     transition: transform 0.3s ease;
 }
+.mobile-nav a:hover {
+    color: #007bff;
+}
 .mobile-nav a.active {
     color: #007bff;
 }
@@ -136,11 +138,15 @@ button:hover {
     margin-bottom: 5px;
     transform: scale(1.2);
 }
-.mobile-nav a:hover {
-    color: #007bff;
-}
 .mobile-nav a:hover i {
     transform: scale(1.1);
+}
+
+/* Ocultar header en móvil */
+@media (max-width: 767px) {
+    .header {
+        display: none;
+    }
 }
 @media (min-width: 768px) {
     .mobile-nav {
@@ -152,7 +158,7 @@ button:hover {
    CONTENEDOR PRINCIPAL
 ======================================== */
 .container-flujo {
-    max-width: 1200px;
+    max-width: 80%;
     margin: 0 auto;
     padding: 1rem;
     padding-bottom: 120px; /* espacio para no tapar menú móvil */
@@ -244,6 +250,9 @@ button:hover {
     .tabla-movimientos td {
         font-size: 0.875rem; 
         padding: 0.5rem;
+    }
+    .container-flujo {
+        max-width: 100%;
     }
 }
 
@@ -411,6 +420,7 @@ button:hover {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
+    transition: background-color 0.3s;
 }
 .btn-conteo:hover {
     background-color: #0056b3;
@@ -427,6 +437,7 @@ button:hover {
     cursor: pointer;
     margin-top: 0.5rem;
     align-self: flex-start; /* alineado a la izquierda */
+    transition: background-color 0.3s;
 }
 .btn-cerrar-caja:hover {
     background-color: #0056b3;
@@ -463,24 +474,25 @@ button:hover {
     }
 }
 
-
-/* Estilo para el contenedor de filtros en la parte superior */
+/* ========================================
+   FILTROS Y PAGINACIÓN
+======================================== */
 .form-filtros {
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 6px;
     padding: 1rem;
     margin-bottom: 1rem;
-  }
-  .formulario-inline {
+}
+.formulario-inline {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
     align-items: center;
-  }
+}
   
-  /* Botón Filtrar */
-  .btn-filtrar {
+/* Botón Filtrar */
+.btn-filtrar {
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -491,13 +503,14 @@ button:hover {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-  }
-  .btn-filtrar:hover {
+    transition: background-color 0.3s;
+}
+.btn-filtrar:hover {
     background-color: #0056b3;
-  }
+}
   
-  /* Botón para ver detalle (opcional) */
-  .btn-detalle {
+/* Botón para ver detalle (opcional) */
+.btn-detalle {
     display: inline-block;
     background-color: #6c757d;
     color: #fff;
@@ -505,28 +518,29 @@ button:hover {
     border-radius: 4px;
     text-decoration: none;
     font-size: 0.85rem;
-  }
-  .btn-detalle:hover {
+    transition: background-color 0.3s;
+}
+.btn-detalle:hover {
     background-color: #5a6268;
-  }
+}
   
-  /* Paginación */
-  .pagination {
+/* Paginación */
+.pagination {
     display: flex;
     gap: 1rem;
     align-items: center;
     justify-content: center;
     margin-top: 1rem;
-  }
-  .btn-paginacion {
+}
+.btn-paginacion {
     background-color: #007bff;
     color: #fff;
     padding: 0.5rem 1rem;
     border-radius: 4px;
     text-decoration: none;
     font-weight: bold;
-  }
-  .btn-paginacion:hover {
+    transition: background-color 0.3s;
+}
+.btn-paginacion:hover {
     background-color: #0056b3;
-  }
-  
+}

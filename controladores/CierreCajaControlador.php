@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../configuracion/base_datos.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/flujo_caja/configuracion/base_datos.php';
 
 // Definir la URL base del proyecto para evitar problemas con rutas relativas
 if (!defined('BASE_URL')) {
@@ -90,14 +90,14 @@ try {
                 VALUES 
                 (:apertura_id, :total_ingresos, :total_egresos, :saldo_final, :total_ventas_diarias, :total_efectivo_caja, :total_calculado, :arqueo, NOW())";
             $stmtCierre = $pdo->prepare($queryCierre);
-            $stmtCierre->bindParam(':apertura_id',         $apertura_id,           PDO::PARAM_INT);
-            $stmtCierre->bindParam(':total_ingresos',      $total_ingresos);
-            $stmtCierre->bindParam(':total_egresos',       $total_egresos);
-            $stmtCierre->bindParam(':saldo_final',         $total_efectivo_caja);
-            $stmtCierre->bindParam(':total_ventas_diarias',$total_ventas_diarias);
-            $stmtCierre->bindParam(':total_efectivo_caja', $total_efectivo_caja);
-            $stmtCierre->bindParam(':total_calculado',     $total_calculado);
-            $stmtCierre->bindParam(':arqueo',              $arqueo);
+            $stmtCierre->bindParam(':apertura_id',          $apertura_id,           PDO::PARAM_INT);
+            $stmtCierre->bindParam(':total_ingresos',       $total_ingresos);
+            $stmtCierre->bindParam(':total_egresos',        $total_egresos);
+            $stmtCierre->bindParam(':saldo_final',          $total_efectivo_caja);
+            $stmtCierre->bindParam(':total_ventas_diarias', $total_ventas_diarias);
+            $stmtCierre->bindParam(':total_efectivo_caja',  $total_efectivo_caja);
+            $stmtCierre->bindParam(':total_calculado',      $total_calculado);
+            $stmtCierre->bindParam(':arqueo',               $arqueo);
             $stmtCierre->execute();
             
             // Actualizar el estado de la apertura de caja a 'cerrada'
@@ -109,7 +109,8 @@ try {
             // Eliminar la variable de sesión de apertura
             unset($_SESSION['apertura_id']);
             
-            header("Location: " . BASE_URL . "vistas/inicio.php?status=success&mensaje=" . urlencode("Caja cerrada correctamente."));
+            // Redireccionar al panel de control (ruta absoluta) luego de cerrar la caja
+            header("Location: " . BASE_URL . "vistas/panel_control.php?status=success&mensaje=" . urlencode("Caja cerrada correctamente."));
             exit();
             
         default:
@@ -119,3 +120,4 @@ try {
     header("Location: " . BASE_URL . "vistas/cierre_caja.php?status=error&mensaje=" . urlencode($e->getMessage()));
     exit();
 }
+?>

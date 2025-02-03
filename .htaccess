@@ -5,6 +5,8 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php [QSA,L]
+RewriteRule ^vistas/(.*)$ vistas/$1 [L]
+
 
 # Establecer index.php como archivo principal
 DirectoryIndex index.php

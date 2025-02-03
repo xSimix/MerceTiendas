@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../configuracion/base_datos.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/flujo_caja/configuracion/base_datos.php';
 
 // Definir la URL base del proyecto para evitar rutas relativas problemáticas
 if (!defined('BASE_URL')) {
@@ -16,7 +16,7 @@ if (!isset($_SESSION['usuario_id'])) {
 // Verificar la apertura de caja
 $query = "SELECT * FROM apertura_caja WHERE estado = 'abierta' AND usuario_id = :usuario_id LIMIT 1";
 $stmt = $pdo->prepare($query);
-$stmt->bindParam(':usuario_id', $_SESSION['usuario_id']);
+$stmt->bindParam(':usuario_id', $_SESSION['usuario_id'], PDO::PARAM_INT);
 $stmt->execute();
 $caja_abierta = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -31,7 +31,7 @@ $_SESSION['apertura_id'] = $caja_abierta['id'];
 // Obtener movimientos del día
 $query = "SELECT * FROM movimientos_caja WHERE apertura_id = :apertura_id";
 $stmt = $pdo->prepare($query);
-$stmt->bindParam(':apertura_id', $_SESSION['apertura_id']);
+$stmt->bindParam(':apertura_id', $_SESSION['apertura_id'], PDO::PARAM_INT);
 $stmt->execute();
 $movimientos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -54,7 +54,7 @@ foreach ($movimientos as $mov) {
     }
 }
 
-// Mensajes de estado
+// Mensajes de estado (evitando XSS)
 $status  = isset($_GET['status'])  ? htmlspecialchars($_GET['status'])  : '';
 $mensaje = isset($_GET['mensaje']) ? htmlspecialchars($_GET['mensaje']) : '';
 $arqueo  = isset($_GET['arqueo'])  ? htmlspecialchars($_GET['arqueo'])  : '';
@@ -156,7 +156,7 @@ $arqueo  = isset($_GET['arqueo'])  ? htmlspecialchars($_GET['arqueo'])  : '';
 </head>
 <body>
   <!-- Se incluye el menú usando una ruta absoluta en el sistema de archivos -->
-  <?php include __DIR__ . "/menu.php"; ?>
+  <?php include $_SERVER['DOCUMENT_ROOT'] . BASE_URL . "vistas/menu.php"; ?>
 
   <div class="container-flujo">
     <h1 class="titulo-principal">Cierre de Caja</h1>

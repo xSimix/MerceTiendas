@@ -36,11 +36,11 @@ $movimientos = $stmtMov->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <title>Detalle del Cierre de Caja</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../publico/css/estilos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <!-- Se incluye jQuery para facilitar la implementación AJAX -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
       /* Estilos básicos para las ventanas modales */
       .modal {
@@ -85,13 +85,13 @@ $movimientos = $stmtMov->fetchAll(PDO::FETCH_ASSOC);
     <h2>Información del Cierre</h2>
     <ul>
         <li><strong>Apertura ID:</strong> <?= htmlspecialchars($cierre['apertura_id']) ?></li>
-        <li><strong>Total Ingresos:</strong> S/<?= number_format($cierre['total_ingresos'], 2) ?></li>
-        <li><strong>Total Egresos:</strong> S/<?= number_format($cierre['total_egresos'], 2) ?></li>
-        <li><strong>Saldo Final:</strong> S/<?= number_format($cierre['saldo_final'], 2) ?></li>
-        <li><strong>Total Ventas Diarias:</strong> S/<?= number_format($cierre['total_ventas_diarias'], 2) ?></li>
-        <li><strong>Total Efectivo Caja:</strong> S/<?= number_format($cierre['total_efectivo_caja'], 2) ?></li>
-        <li><strong>Total Calculado:</strong> S/<?= number_format($cierre['total_calculado'], 2) ?></li>
-        <li><strong>Arqueo:</strong> <?= number_format($cierre['arqueo'], 2) ?></li>
+        <li><strong>Total Ingresos:</strong> S/<span id="total_ingresos"><?= number_format($cierre['total_ingresos'], 2) ?></span></li>
+        <li><strong>Total Egresos:</strong> S/<span id="total_egresos"><?= number_format($cierre['total_egresos'], 2) ?></span></li>
+        <li><strong>Saldo Final:</strong> S/<span id="saldo_final"><?= number_format($cierre['saldo_final'], 2) ?></span></li>
+        <li><strong>Total Ventas Diarias:</strong> S/<span id="total_ventas_diarias"><?= number_format($cierre['total_ventas_diarias'], 2) ?></span></li>
+        <li><strong>Total Efectivo Caja:</strong> S/<span id="total_efectivo_caja"><?= number_format($cierre['total_efectivo_caja'], 2) ?></span></li>
+        <li><strong>Total Calculado:</strong> S/<span id="total_calculado"><?= number_format($cierre['total_calculado'], 2) ?></span></li>
+        <li><strong>Arqueo:</strong> S/<span id="arqueo"><?= number_format($cierre['arqueo'], 2) ?></span></li>
         <li><strong>Fecha de Cierre:</strong> <?= htmlspecialchars($cierre['fecha_cierre']) ?></li>
     </ul>
     
@@ -125,7 +125,7 @@ $movimientos = $stmtMov->fetchAll(PDO::FETCH_ASSOC);
                     <td><?= htmlspecialchars($mov['descripcion']) ?></td>
                     <td><?= htmlspecialchars($mov['fecha_movimiento']) ?></td>
                     <td>
-                        <!-- Botón para editar movimiento; se llama a la función JS para abrir el modal -->
+                        <!-- Botón para editar movimiento -->
                         <button onclick='abrirEditarModal(<?= json_encode($mov["id"]) ?>, <?= json_encode($mov["tipo"]) ?>, <?= json_encode($mov["metodo_pago"]) ?>, <?= json_encode($mov["metodo_pago_destino"]) ?>, <?= json_encode($mov["monto"]) ?>, <?= json_encode($mov["descripcion"]) ?>)'>Editar</button>
                         <!-- Formulario para eliminar movimiento -->
                         <form action="../controladores/EdicionCierreCajaControlador.php" method="POST" style="display:inline;" onsubmit="return confirm('¿Seguro que desea eliminar este movimiento?');">
@@ -151,17 +151,14 @@ $movimientos = $stmtMov->fetchAll(PDO::FETCH_ASSOC);
         <span class="close" onclick="cerrarModal('modalNuevoMovimiento')">&times;</span>
         <h2>Nuevo Movimiento</h2>
         <form action="../controladores/EdicionCierreCajaControlador.php" method="POST">
-            <!-- Campos ocultos para IDs -->
             <input type="hidden" name="apertura_id" value="<?= htmlspecialchars($apertura_id) ?>">
             <input type="hidden" name="cierre_id" value="<?= htmlspecialchars($cierre['id']) ?>">
-            <!-- Indicar que se trata de creación desde detalle -->
             <input type="hidden" name="redirect" value="detalle">
             
             <label for="nuevo_tipo">Tipo:</label>
             <select name="tipo" id="nuevo_tipo" required>
                 <option value="ingreso">Ingreso</option>
                 <option value="egreso">Egreso</option>
-                <!-- Opcional: incluir "cambio" si corresponde -->
             </select><br><br>
             
             <label for="nuevo_metodo_pago">Método de Pago:</label>
@@ -188,7 +185,6 @@ $movimientos = $stmtMov->fetchAll(PDO::FETCH_ASSOC);
         <span class="close" onclick="cerrarModal('modalEditarMovimiento')">&times;</span>
         <h2>Editar Movimiento</h2>
         <form action="../controladores/EdicionCierreCajaControlador.php" method="POST">
-            <!-- Campos ocultos para IDs -->
             <input type="hidden" name="apertura_id" id="editar_apertura_id" value="<?= htmlspecialchars($apertura_id) ?>">
             <input type="hidden" name="cierre_id" id="editar_cierre_id" value="<?= htmlspecialchars($cierre['id']) ?>">
             <input type="hidden" name="movimiento_id" id="editar_movimiento_id">
@@ -197,7 +193,6 @@ $movimientos = $stmtMov->fetchAll(PDO::FETCH_ASSOC);
             <select name="tipo" id="editar_tipo" required>
                 <option value="ingreso">Ingreso</option>
                 <option value="egreso">Egreso</option>
-                <!-- Opcional: incluir "cambio" si corresponde -->
             </select><br><br>
             
             <label for="editar_metodo_pago">Método de Pago:</label>
@@ -223,33 +218,57 @@ $movimientos = $stmtMov->fetchAll(PDO::FETCH_ASSOC);
       <div class="modal-content">
         <span class="close" onclick="cerrarModal('modalEditarCierre')">&times;</span>
         <h2>Editar Detalles del Cierre de Caja #<?= htmlspecialchars($cierre['id']) ?></h2>
-        <form action="../controladores/EdicionCierreCajaControlador.php" method="POST">
-            <!-- Campo oculto para el id del cierre -->
-            <input type="hidden" name="id" value="<?= htmlspecialchars($cierre['id']) ?>">
-            
+        <form id="formEditarCierre" action="../controladores/EdicionCierreCajaControlador.php" method="POST">
+          <!-- Campos ocultos -->
+          <input type="hidden" name="cierre_id" value="<?= htmlspecialchars($cierre['id']) ?>">
+          <input type="hidden" name="ajax" value="true">
+          
+          <div class="form-group">
             <label for="editar_total_ingresos">Total Ingresos:</label>
-            <input type="number" step="0.01" name="total_ingresos" id="editar_total_ingresos" required><br><br>
-            
+            <input type="number" step="0.01" name="total_ingresos" id="editar_total_ingresos" required
+                   value="<?= htmlspecialchars($cierre['total_ingresos']) ?>">
+          </div>
+          
+          <div class="form-group">
             <label for="editar_total_egresos">Total Egresos:</label>
-            <input type="number" step="0.01" name="total_egresos" id="editar_total_egresos" required><br><br>
-            
+            <input type="number" step="0.01" name="total_egresos" id="editar_total_egresos" required
+                   value="<?= htmlspecialchars($cierre['total_egresos']) ?>">
+          </div>
+          
+          <div class="form-group">
             <label for="editar_saldo_final">Saldo Final:</label>
-            <input type="number" step="0.01" name="saldo_final" id="editar_saldo_final" required><br><br>
-            
+            <input type="number" step="0.01" name="saldo_final" id="editar_saldo_final" required
+                   value="<?= htmlspecialchars($cierre['saldo_final']) ?>">
+          </div>
+          
+          <div class="form-group">
             <label for="editar_total_ventas_diarias">Total Ventas Diarias:</label>
-            <input type="number" step="0.01" name="total_ventas_diarias" id="editar_total_ventas_diarias" required><br><br>
-            
+            <input type="number" step="0.01" name="total_ventas_diarias" id="editar_total_ventas_diarias" required
+                   value="<?= htmlspecialchars($cierre['total_ventas_diarias']) ?>">
+          </div>
+          
+          <div class="form-group">
             <label for="editar_total_efectivo_caja">Total Efectivo Caja:</label>
-            <input type="number" step="0.01" name="total_efectivo_caja" id="editar_total_efectivo_caja" required><br><br>
-            
+            <input type="number" step="0.01" name="total_efectivo_caja" id="editar_total_efectivo_caja" required
+                   value="<?= htmlspecialchars($cierre['total_efectivo_caja']) ?>">
+          </div>
+          
+          <div class="form-group">
             <label for="editar_total_calculado">Total Calculado:</label>
-            <input type="number" step="0.01" name="total_calculado" id="editar_total_calculado" required><br><br>
-            
+            <input type="number" step="0.01" name="total_calculado" id="editar_total_calculado" required
+                   value="<?= htmlspecialchars($cierre['total_calculado']) ?>">
+          </div>
+          
+          <div class="form-group">
             <label for="editar_arqueo">Arqueo:</label>
-            <input type="number" step="0.01" name="arqueo" id="editar_arqueo" required><br><br>
-            
+            <input type="number" step="0.01" name="arqueo" id="editar_arqueo" required
+                   value="<?= htmlspecialchars($cierre['arqueo']) ?>">
+          </div>
+          
+          <div class="form-group" style="text-align: center;">
             <button type="submit" name="accion" value="editar_cierre">Guardar Cambios</button>
             <button type="button" onclick="cerrarModal('modalEditarCierre')">Cancelar</button>
+          </div>
         </form>
       </div>
     </div>
@@ -274,17 +293,41 @@ $movimientos = $stmtMov->fetchAll(PDO::FETCH_ASSOC);
           abrirModal('modalEditarMovimiento');
       }
       
-      // Función para abrir el modal de edición del cierre y rellenar los campos con los datos actuales
+      // Función para abrir el modal de edición del cierre
       function abrirEditarCierreModal() {
-          document.getElementById('editar_total_ingresos').value = <?= json_encode($cierre['total_ingresos']) ?>;
-          document.getElementById('editar_total_egresos').value = <?= json_encode($cierre['total_egresos']) ?>;
-          document.getElementById('editar_saldo_final').value = <?= json_encode($cierre['saldo_final']) ?>;
-          document.getElementById('editar_total_ventas_diarias').value = <?= json_encode($cierre['total_ventas_diarias']) ?>;
-          document.getElementById('editar_total_efectivo_caja').value = <?= json_encode($cierre['total_efectivo_caja']) ?>;
-          document.getElementById('editar_total_calculado').value = <?= json_encode($cierre['total_calculado']) ?>;
-          document.getElementById('editar_arqueo').value = <?= json_encode($cierre['arqueo']) ?>;
           abrirModal('modalEditarCierre');
       }
+      
+      // Interceptar el envío del formulario de edición del cierre para actualizar vía AJAX
+      $("#formEditarCierre").submit(function(event) {
+          event.preventDefault();
+          $.ajax({
+              type: "POST",
+              url: $(this).attr("action"),
+              data: $(this).serialize(),
+              dataType: "json",
+              success: function(response) {
+                  if(response.status === "success") {
+                      // Actualizar en vivo los valores mostrados en la página
+                      $("#total_ingresos").text(parseFloat(response.data.total_ingresos).toFixed(2));
+                      $("#total_egresos").text(parseFloat(response.data.total_egresos).toFixed(2));
+                      $("#saldo_final").text(parseFloat(response.data.saldo_final).toFixed(2));
+                      $("#total_ventas_diarias").text(parseFloat(response.data.total_ventas_diarias).toFixed(2));
+                      $("#total_efectivo_caja").text(parseFloat(response.data.total_efectivo_caja).toFixed(2));
+                      $("#total_calculado").text(parseFloat(response.data.total_calculado).toFixed(2));
+                      $("#arqueo").text(parseFloat(response.data.arqueo).toFixed(2));
+                      alert(response.mensaje);
+                      cerrarModal("modalEditarCierre");
+                  } else {
+                      alert("Error: " + response.mensaje);
+                  }
+              },
+              error: function(error) {
+                  console.error("Error en la petición AJAX:", error);
+                  alert("Error al actualizar los detalles.");
+              }
+          });
+      });
       
       // Cerrar el modal si se hace clic fuera del contenido (para todos los modales)
       window.onclick = function(event) {
